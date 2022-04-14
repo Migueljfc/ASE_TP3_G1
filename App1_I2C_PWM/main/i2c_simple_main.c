@@ -32,19 +32,19 @@ static ledc_channel_config_t ledc_channel;  //LED control channel
 static void init_hw(void)
 {
     ledc_timer_config_t ledc_timer = {
-        .duty_resolution = LEDC_TIMER_8_BIT,
+        .duty_resolution = LEDC_TIMER_13_BIT,
         .freq_hz = 1000,
         .speed_mode = LEDC_HIGH_SPEED_MODE,
-        .timer_num = LEDC_TIMER_0,
+        .timer_num = LEDC_TIMER_1,
         .clk_cfg = LEDC_AUTO_CLK,
     };
     ledc_timer_config(&ledc_timer);
-    ledc_channel.channel = LEDC_CHANNEL_0;
+    ledc_channel.channel = LEDC_CHANNEL_1;
     ledc_channel.duty = 0;
     ledc_channel.gpio_num = LEDC_GPIO;
     ledc_channel.speed_mode = LEDC_HIGH_SPEED_MODE;
     ledc_channel.hpoint = 0;
-    ledc_channel.timer_sel = LEDC_TIMER_0;
+    ledc_channel.timer_sel = LEDC_TIMER_1;
     ledc_channel_config(&ledc_channel);
 }
 
@@ -83,6 +83,7 @@ static esp_err_t i2c_master_init(void)
 void app_main(void)
 {
     uint8_t data[2];
+    uint32_t val;
     ESP_ERROR_CHECK(i2c_master_init());
     ESP_LOGI(TAG, "I2C initialized successfully");
     init_hw();
@@ -91,9 +92,10 @@ void app_main(void)
     {
         
         ESP_ERROR_CHECK(sensor_read(SENSOR_ADDR, data, 1));
+        val = data[0];
         ESP_LOGI(TAG, "Val = %d", data[0]);    
-        ledc_set_duty(ledc_channel.speed_mode, ledc_channel.channel, data[0]);
-        ledc_update_duty(ledc_channel.speed_mode, ledc_channel.channel);
+        ledc_set_duty(ledc_channel.speed_mode, ledc_channel.channel, val );
+        ledc_update_duty(ledc_channel.speed_mode, ledc_channel.channel); 
         vTaskDelay(500 / portTICK_RATE_MS);
     }
 
