@@ -1,0 +1,1 @@
+We read the value of the TC74 I2C temperature sensor and use this value to adjust the brightness of an LED by using PWM technique.
