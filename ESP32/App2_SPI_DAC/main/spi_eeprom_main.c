@@ -67,6 +67,8 @@
 #define PIN_NUM_CS 10
 #endif
 
+#define PIN_NUM_DAC 25
+
 #define Num_Samples  112
 #define MaxWaveTypes 3
 int i = 0;
@@ -84,6 +86,10 @@ static void timer_isr(void* arg) {
     TIMERG0.hw_timer[0].config.alarm_en = 1;
 
     // your code, runs in the interrupt
+    // when timer interrupts, change wave type
+    i = 0;
+    if (wave_type >= MaxWaveTypes) wave_type = 0;
+    else wave_type++;
 }
 
 void init_timer(int timer_period_us) {
@@ -203,9 +209,9 @@ void app_main(void) {
     ESP_LOGI(TAG, "Read: \n");
     ESP_LOGI(TAG, str(test_WaveFormTables));
 
-    ESP_LOGI(TAG, "Writing and Reading fase over. Proceding to generate wave signals.");
+    ESP_LOGI(TAG, "Writing and Reading fase over. Generating wave signals.");
 
-    int wave_type = 0;
+    static int wave_type = 0;
     while (1) {
         init_timer(10000);
         
@@ -213,12 +219,7 @@ void app_main(void) {
         i++;
         if (i >= Num_Samples) i = 0; 
 
-        // TODO - when timer interrupts, change wave type
-        if () {
-            i = 0;
-            if (wave_type >= MaxWaveTypes) wave_type = 0;
-            else wave_type++;
-        }
+        
         // vTaskDelay(1);
     }
 }
