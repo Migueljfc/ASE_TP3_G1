@@ -203,7 +203,7 @@ void app_main(void) {
     }
 
     // Reading Sin Wave
-    static uint8_t sin[32];
+    static uint8_t sin[16];
     for (int i = 0; i < sizeof(SinWave); i++) {
         ret = spi_eeprom_read(eeprom_handle, i, &sin[i]);
         // test_WaveFormTables[i][j] = tmp;
