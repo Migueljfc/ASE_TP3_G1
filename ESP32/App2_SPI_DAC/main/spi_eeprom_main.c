@@ -71,7 +71,8 @@
 
 #define Num_Samples  112
 #define MaxWaveTypes 3
-int i = 0;
+static int i = 0;
+static int wave_type = 0;
 
 static const char TAG[] = "main";
 
@@ -150,7 +151,7 @@ void app_main(void) {
     ESP_ERROR_CHECK(ret);
 
     // const char test_str[] = "Hello World!";
-    static byte WaveFormTable[MaxWaveTypes][Num_Samples] = {
+    static char WaveFormTable[MaxWaveTypes][Num_Samples] = {
         // Sin wave
         { 
             0x80, 0x83, 0x87, 0x8A, 0x8E, 0x91, 0x95, 0x98, 0x9B, 0x9E, 0xA2, 0xA5, 0xA7, 0xAA, 0xAD, 0xAF,
@@ -197,7 +198,7 @@ void app_main(void) {
     }
 
     // Reading
-    static byte test_WaveFormTable[MaxWaveTypes][Num_Samples];
+    static char test_WaveFormTable[MaxWaveTypes][Num_Samples];
     count = 0;
     for (int i = 0; i < MaxWaveTypes; i++) {
         for (int j = 0; j < Num_Samples; j++) {
@@ -207,11 +208,10 @@ void app_main(void) {
         }
     }
     ESP_LOGI(TAG, "Read: \n");
-    ESP_LOGI(TAG, str(test_WaveFormTables));
+    // ESP_LOGI(TAG, test_WaveFormTables);
 
     ESP_LOGI(TAG, "Writing and Reading fase over. Generating wave signals.");
 
-    static int wave_type = 0;
     while (1) {
         init_timer(10000);
         
