@@ -68,10 +68,11 @@
 #define PIN_NUM_CS 10
 #endif
 
-#define DAC_CHAN 1  // default channel 1
+#define PIN_DAC 25
 
 #define Num_Samples  112
 #define MaxWaveTypes 3
+
 static int i = 0;
 static int wave_type = 0;
 
@@ -248,13 +249,13 @@ void app_main(void) {
 
     ESP_LOGI(TAG, "Writing and Reading fase over. Generating wave signals.");
 
-    ret = dac_output_enable(DAC_CHAN);
+    ret = dac_output_enable(PIN_DAC);
     ESP_ERROR_CHECK(ret);
 
     while (1) {
         init_timer(10000);
 
-        dac_output_voltage(DAC_CHAN, WaveFormTable[wave_type][i]);
+        dac_output_voltage(PIN_DAC, WaveFormTable[wave_type][i]);
         // dacWrite(25, WaveFormTable[wave_type][i]); 
         i++;
         if (i >= Num_Samples) i = 0; 
