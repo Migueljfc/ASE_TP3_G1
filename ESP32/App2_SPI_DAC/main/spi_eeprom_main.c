@@ -14,6 +14,7 @@
 #include "freertos/task.h"
 #include "driver/spi_master.h"
 #include "driver/gpio.h"
+#include "driver/dac.h"
 
 #include "sdkconfig.h"
 #include "esp_log.h"
@@ -67,7 +68,7 @@
 #define PIN_NUM_CS 10
 #endif
 
-#define PIN_NUM_DAC 25
+#define DAC_CHAN CONFIG_EXAMPLE_DAC_CHANNEL  // default channel 1
 
 #define Num_Samples  112
 #define MaxWaveTypes 3
@@ -76,9 +77,9 @@ static int wave_type = 0;
 
 static const char TAG[] = "main";
 
-void setup() {
-  Serial.begin(115200);
-}
+// void setup() {
+//   Serial.begin(115200);
+// }
 
 static intr_handle_t s_timer_handle;
 
@@ -186,7 +187,7 @@ void app_main(void) {
 
     // Writing
     ESP_LOGI(TAG, "Write: ");
-    ESP_LOGI(TAG, str(WaveFormTable));
+    ESP_LOGI(TAG, WaveFormTable);
     int count = 0;
     for (int i = 0; i < MaxWaveTypes; i++) {
         for (int j = 0; j < Num_Samples; j++) {
@@ -198,11 +199,13 @@ void app_main(void) {
     }
 
     // Reading
-    static char test_WaveFormTable[MaxWaveTypes][Num_Samples];
+    char test_WaveFormTable[MaxWaveTypes][Num_Samples];
     count = 0;
+    char tmp;
     for (int i = 0; i < MaxWaveTypes; i++) {
         for (int j = 0; j < Num_Samples; j++) {
-            ret = spi_eeprom_read(eeprom_handle, count, &test_WaveFormTables[i][j]);
+            ret = spi_eeprom_read(eeprom_handle, count, tmp);
+            test_WaveFormTables[i][j] = tmp;
             ESP_ERROR_CHECK(ret);
             count++;
         }
@@ -212,14 +215,17 @@ void app_main(void) {
 
     ESP_LOGI(TAG, "Writing and Reading fase over. Generating wave signals.");
 
+    ret = dac_output_enable(DAC_CHAN);
+    ESP_ERROR_CHECK(ret);
+
     while (1) {
         init_timer(10000);
-        
-        dacWrite(25, WaveFormTable[wave_type][i]); 
+
+        dac_output_voltage(DAC_CHAN, test_WaveFormTables[wave_type][i]);
+        // dacWrite(25, WaveFormTable[wave_type][i]); 
         i++;
         if (i >= Num_Samples) i = 0; 
 
-        
         // vTaskDelay(1);
     }
 }
