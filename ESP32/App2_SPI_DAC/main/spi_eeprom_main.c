@@ -78,6 +78,8 @@ static int wave_type = 0;
 
 static const char TAG[] = "main";
 
+void start_timer();
+
 // void setup() {
 //   Serial.begin(115200);
 // }
@@ -93,6 +95,7 @@ static void timer_isr(void* arg) {
     i = 0;
     if (wave_type >= MaxWaveTypes) wave_type = 0;
     else wave_type++;
+    start_timer();
 }
 
 void init_timer(int timer_period_us) {
@@ -112,6 +115,10 @@ void init_timer(int timer_period_us) {
     timer_isr_register(TIMER_GROUP_0, TIMER_0, &timer_isr, NULL, 0, &s_timer_handle);
 
     timer_start(TIMER_GROUP_0, TIMER_0);
+}
+
+void start_timer() {
+    init_timer(10000);
 }
 
 void app_main(void) {
@@ -253,7 +260,7 @@ void app_main(void) {
     ESP_ERROR_CHECK(ret);
 
     while (1) {
-        init_timer(10000);
+        start_timer();
 
         dac_output_voltage(PIN_DAC, WaveFormTable[wave_type][i]);
         // dacWrite(25, WaveFormTable[wave_type][i]); 
