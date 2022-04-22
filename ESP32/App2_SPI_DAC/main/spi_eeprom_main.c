@@ -71,7 +71,6 @@
 #define PIN_DAC 25
 
 #define Num_Samples  112
-#define Num_Samples  16
 #define MaxWaveTypes 3
 
 static int i = 0;
@@ -264,8 +263,7 @@ void app_main(void) {
         start_timer();
 
         dac_output_voltage(PIN_DAC, WaveFormTable[wave_type][i]);
-        dac_output_voltage(PIN_DAC, WaveFormTable[i]);
-        dacWrite(25, WaveFormTable[wave_type][i]); 
+        // dacWrite(25, WaveFormTable[wave_type][i]); 
         i++;
         if (i >= Num_Samples) i = 0; 
 
