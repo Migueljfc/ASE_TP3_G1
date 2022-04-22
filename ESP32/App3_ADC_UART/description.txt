@@ -1,1 +1,1 @@
-We read the value of the potentiometer that is connected to a ADC pin and send the data to the UART.
+We read the value of the potentiometer that is connected to a ADC pin (GPIO34) and send the data to the UART. The ESP32 is in ligh-sleep mode being wakeup by a 5 seconds timer or when we touch in the touchpad 8 connected to GPIO33.

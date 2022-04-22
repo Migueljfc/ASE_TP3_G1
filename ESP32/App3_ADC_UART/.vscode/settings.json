@@ -2,5 +2,11 @@
   "C_Cpp.intelliSenseEngine": "Tag Parser",
   "idf.flashType": "UART",
   "idf.portWin": "COM10",
-  "idf.adapterTargetName": "esp32"
+  "idf.adapterTargetName": "esp32",
+  "files.associations": {
+    "esp_sleep.h": "c",
+    "array": "c",
+    "string": "c",
+    "string_view": "c"
+  }
 }
