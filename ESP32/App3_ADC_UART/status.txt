@@ -1,1 +1,1 @@
-TESTED WITH ISSUES FOUND -> value read from uart is not correct
+TESTED SUCCESSFULLY
