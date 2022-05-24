@@ -1,0 +1,4 @@
+Read the value of TC74 I2C Temperature sensor every 1 second for 10 seconds.
+GPIO pin 17 used to power the sensor, only powers on for 0.5 seconds then waits 1 second.
+When the sensor is reading one led is turned on.
+In the end writes in a file the time and the value read.
