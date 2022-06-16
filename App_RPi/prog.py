@@ -21,7 +21,7 @@ i2c_address = 0x4d
 reg_temp = 0x00
 reg_config = 0x01
 
-# Read temperature registers and calculate Celsius
+# Read temperature
 def read_temp():
 
     # Read temperature registers
@@ -29,7 +29,7 @@ def read_temp():
 
     temp_c = (val[0] << 4) | (val[1] >> 4)
 
-    # Convert registers value to temperature (C)
+    # Convert value to temperature (C)
     temp_c = temp_c * 0.0625
 
     return temp_c
@@ -50,7 +50,7 @@ except:
 	pass
 
 
-# Print out temperature
+# Print and write in a file the temperature
 for i in range (0,total):
     GPIO.output(7,True)
     time.sleep(duration)
