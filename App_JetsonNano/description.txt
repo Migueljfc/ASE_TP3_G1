@@ -1,0 +1,7 @@
+In the detectnet.py program we use the nvidia jetson inference library that use DetectNet to identify objects, after that the objects are overlaid with boxes, object identification and the respective confidence (the output files are saved in processed folder).
+In the detectnetDataPrivacy.py we use the previous program and if detects a person the corresponding box is blurred. To do this we used the Pillow library to cut the box to a new image apply a blur filter in that image and overlap the two images.
+
+To run the two programs copy run.sh detectnet.py and detectnetDataPrivacy.py (and images folder if does not exist) to the bin folder and run the following command:
+$ sudo sh run.sh
+
+The output images of the first program go to the processed folder and those of the second go to blured folder

@@ -3,7 +3,7 @@ import datetime
 import smbus
 import RPi.GPIO as GPIO
 
-i2c_ch = 1
+
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 GPIO.setup(7,GPIO.OUT)
